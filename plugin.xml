@@ -58,7 +58,7 @@
     <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
 
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
-      <activity android:name="com.yalantis.ucrop.UCropActivity"
+      <activity android:name="com.jeduan.crop.CustomUCropActivity"
         android:screenOrientation="portrait"
         android:theme="@style/UCropTheme.EdgeFix" />
     </config-file>
@@ -72,5 +72,6 @@
     </config-file>
 
     <source-file src="src/android/CropPlugin.java" target-dir="src/com/jeduan/crop" />
+    <source-file src="src/android/CustomUCropActivity.java" target-dir="src/com/jeduan/crop" />
   </platform>
 </plugin>

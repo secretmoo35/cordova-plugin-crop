@@ -34,7 +34,8 @@ public class CropPlugin extends CordovaPlugin {
             int targetWidth = options.getInt("targetWidth");
             int targetHeight = options.getInt("targetHeight");
             boolean allowRotate = options.has("allowRotate") ? options.getBoolean("allowRotate") : false;
-            boolean keepCropAspectRatio = options.has("keepCropAspectRatio") ? options.getBoolean("keepCropAspectRatio") : true;
+            boolean keepCropAspectRatio = options.has("keepCropAspectRatio") ? options.getBoolean("keepCropAspectRatio")
+                    : true;
             boolean showCropGrid = options.has("showCropGrid") ? options.getBoolean("showCropGrid") : true;
             String toolbarTitle = options.has("toolbarTitle") ? options.getString("toolbarTitle") : "";
 
@@ -45,7 +46,8 @@ public class CropPlugin extends CordovaPlugin {
             String activeControlsWidgetColor = options.getString("activeControlsWidgetColor");
 
             this.inputUri = Uri.parse(imagePath);
-            this.outputUri = Uri.fromFile(new File(getTempDirectoryPath() + "/" + System.currentTimeMillis()+ "-cropped.jpg"));
+            this.outputUri = Uri
+                    .fromFile(new File(getTempDirectoryPath() + "/" + System.currentTimeMillis() + "-cropped.jpg"));
 
             PluginResult pr = new PluginResult(PluginResult.Status.NO_RESULT);
             pr.setKeepCallback(true);
@@ -55,36 +57,38 @@ public class CropPlugin extends CordovaPlugin {
             cordova.setActivityResultCallback(this);
 
             UCrop.Options ucropOptions = new UCrop.Options();
-            
-            
+
             ucropOptions.setToolbarColor(Color.parseColor(toolbarColor));
             ucropOptions.setStatusBarColor(Color.parseColor(statusBarColor));
             ucropOptions.setToolbarWidgetColor(Color.parseColor(toolbarWidgetColor));
-            //ucropOptions.setRootViewBackgroundColor(Color.parseColor(rootViewBackgroundColor));
-            //ucropOptions.setActiveControlsWidgetColor(Color.parseColor(activeControlsWidgetColor));
+            // ucropOptions.setRootViewBackgroundColor(Color.parseColor(rootViewBackgroundColor));
+            // ucropOptions.setActiveControlsWidgetColor(Color.parseColor(activeControlsWidgetColor));
 
             ucropOptions.setFreeStyleCropEnabled(!keepCropAspectRatio);
             ucropOptions.setShowCropGrid(showCropGrid);
-            ucropOptions.setToolbarTitle(toolbarTitle);            
-            if(targetHeight != -1 && targetHeight > 100 
-				&& targetWidth != -1 && targetWidth > 100) 
-			{
-				ucropOptions.setAspectRatioOptions(0, 
-					new AspectRatio(null, targetWidth/100, targetHeight/100));
-			}
-            
+            ucropOptions.setToolbarTitle(toolbarTitle);
+            if (targetHeight != -1 && targetHeight > 100
+                    && targetWidth != -1 && targetWidth > 100) {
+                ucropOptions.setAspectRatioOptions(0,
+                        new AspectRatio(null, targetWidth / 100, targetHeight / 100));
+            }
+
             UCrop crop = UCrop.of(this.inputUri, this.outputUri)
                     .withOptions(ucropOptions);
 
-            if(targetHeight != -1 && targetWidth != -1) {
+            if (targetHeight != -1 && targetWidth != -1) {
                 crop.withMaxResultSize(targetWidth, targetHeight);
-                if(targetWidth == targetHeight) {
+                if (targetWidth == targetHeight) {
                     crop.withAspectRatio(1, 1);
                 }
-            } else if(keepCropAspectRatio) {
+            } else if (keepCropAspectRatio) {
                 crop.withAspectRatio(1, 1);
             }
-            crop.start(cordova.getActivity());
+            // Launch CustomUCropActivity instead of the default UCropActivity
+            // to fix the edge-to-edge toolbar overlap on Android SDK 35+
+            Intent cropIntent = crop.getIntent(cordova.getActivity());
+            cropIntent.setClass(cordova.getActivity(), CustomUCropActivity.class);
+            cordova.getActivity().startActivityForResult(cropIntent, UCrop.REQUEST_CROP);
             return true;
         }
         return false;
