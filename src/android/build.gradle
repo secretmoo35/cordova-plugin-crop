@@ -13,5 +13,5 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.yalantis:ucrop:2.2.11'
+    implementation 'com.github.yalantis:ucrop:2.2.8'
 }
