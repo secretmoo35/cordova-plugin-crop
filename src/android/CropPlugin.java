@@ -58,7 +58,7 @@ public class CropPlugin extends CordovaPlugin {
             
             
             ucropOptions.setToolbarColor(Color.parseColor(toolbarColor));
-            // ucropOptions.setStatusBarColor(Color.parseColor(statusBarColor));
+            ucropOptions.setStatusBarColor(Color.parseColor(statusBarColor));
             ucropOptions.setToolbarWidgetColor(Color.parseColor(toolbarWidgetColor));
             //ucropOptions.setRootViewBackgroundColor(Color.parseColor(rootViewBackgroundColor));
             //ucropOptions.setActiveControlsWidgetColor(Color.parseColor(activeControlsWidgetColor));
