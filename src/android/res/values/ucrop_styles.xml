@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Custom theme for UCropActivity to fix edge-to-edge overlap issue on Android SDK 35+.
+        Android 15 (SDK 35) enforces edge-to-edge display by default, which causes the UCrop
+        toolbar buttons (Cancel ✕ and Done ✓) to be hidden under the system status bar.
+
+        android:windowOptOutEdgeToEdgeEnforcement=true opts this Activity out of the
+        mandatory edge-to-edge enforcement. On SDK < 35 this attribute is safely ignored.
+    -->
+    <style name="UCropTheme.EdgeFix" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+    </style>
+</resources>

@@ -25,7 +25,7 @@
   <platform name="ios">
     <config-file target="config.xml" parent="/*">
       <feature name="CropPlugin">
-        <param name="ios-package" value="CTCrop"/>
+        <param name="ios-package" value="CTCrop" />
       </feature>
     </config-file>
 
@@ -51,20 +51,24 @@
   <platform name="android">
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="CropPlugin">
-        <param name="android-package" value="com.jeduan.crop.CropPlugin"/>
+        <param name="android-package" value="com.jeduan.crop.CropPlugin" />
       </feature>
     </config-file>
 
     <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
 
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
-      <activity android:name="com.yalantis.ucrop.UCropActivity" 
-                android:screenOrientation="portrait" 
-                android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+      <activity android:name="com.yalantis.ucrop.UCropActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/UCropTheme.EdgeFix" />
     </config-file>
 
+    <!-- Custom theme resource to fix edge-to-edge overlap on Android SDK 35+ -->
+    <resource-file src="src/android/res/values/ucrop_styles.xml"
+      target="res/values/ucrop_styles.xml" />
+
     <config-file target="AndroidManifest.xml" parent="/manifest">
-        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     </config-file>
 
     <source-file src="src/android/CropPlugin.java" target-dir="src/com/jeduan/crop" />
